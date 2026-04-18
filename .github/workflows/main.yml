@@ -26,4 +26,32 @@ jobs:
         with:
           name: bandit-findings
           path: bandit-report.json
+  image_scan:
+    name: Docker Scan CWE
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout-code@v6
+
+      - name: Set up Docker
+        uses: docker/setup-docker-action@v5.0.0
+        with:
+          vesrion: '24.0.9'
+
+      - name: Set short git commit SHA
+        id: vars
+        run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build Docker Image
+        run: |
+          docker build -f Dockerfile \
+            -t application:${{ env.short_sha }} \
+            -t application:latest .
+
+      - name: Docker Scout Scan
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh -o install-scout.sh
+          sh install-scout.sh
+          docker scout quickview 
+          docker scout cves 
       
