@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
-        uses: actions/checkout-code@v6
+        uses: actions/checkout@v6
 
       - name: Set up Docker
         uses: docker/setup-docker-action@v5.0.0
