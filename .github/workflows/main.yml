@@ -18,7 +18,7 @@ jobs:
         run: pip install Bandit 
 
       - name: Run Bandit
-        run: bandit -ii -ll -r . 
+        run: bandit -ii -ll -r . -f json -o bandit-report.json
       
       - name: Upload artifact
         if: always()
