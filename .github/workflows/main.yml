@@ -20,3 +20,10 @@ jobs:
       - name: Run Bandit
         run: bandit -ii -ll -r . 
       
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: bandit-findings
+          path: bandit-report.json
+      
